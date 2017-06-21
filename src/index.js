@@ -1,24 +1,9 @@
-const { dirname, resolve } = require('path')
 const rewire = require('rewire')
-const getCallerFile = require('./getCallerFile')
+const resolveFile = require('./resolveFile')
 
 
 module.exports = function denude(path) {
-  let callerFile
-
-  try {
-    callerFile = getCallerFile()
-  } catch (err) {}
-
-  if (!callerFile) {
-    throw new Error(
-      'Unable to resolve the path of the module that calls ' +
-      `\`denude(${path})\`. Perhaps the environment (node version, OS, etc.) ` +
-      'is incompatible with denude'
-    )
-  }
-
-  let fullPath = resolve(dirname(callerFile), path)
+  let fullPath = resolveFile(path)
   let _module = rewire(fullPath)
 
   if (!_module || typeof _module.__get__ !== 'function') {
