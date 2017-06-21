@@ -8,7 +8,7 @@
   "license": "ISC",
   "scripts": {
     "precommit": "lint-staged",
-    "test": "ava test/index.js"
+    "test": "ava test/*.js"
   },
   "lint-staged": {
     "*.js": [
