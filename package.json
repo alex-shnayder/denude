@@ -21,5 +21,8 @@
     "eslint-plugin-import": "^2.2.0",
     "husky": "^0.13.3",
     "lint-staged": "^3.4.0"
+  },
+  "dependencies": {
+    "rewire": "^2.5.2"
   }
 }
