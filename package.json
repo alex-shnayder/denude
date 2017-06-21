@@ -1,11 +1,21 @@
 {
   "name": "denude",
   "version": "0.0.0",
-  "description": "",
+  "description": "👀 Expose private parts",
   "repository": "alex-shnayder/denude",
   "homepage": "https://github.com/alex-shnayder/denude#readme",
   "bugs": "https://github.com/alex-shnayder/denude/issues",
   "license": "ISC",
+  "keywords": [
+    "require",
+    "reveal",
+    "expose",
+    "export",
+    "import",
+    "private",
+    "internal",
+    "test"
+  ],
   "scripts": {
     "precommit": "lint-staged",
     "test": "ava test/*.js"
