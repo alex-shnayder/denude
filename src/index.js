@@ -3,13 +3,6 @@ const rewire = require('rewire')
 const getCallerFile = require('./getCallerFile')
 
 
-const TRAPS = {
-  get(target, name) {
-    return target.__get__(name)
-  },
-}
-
-
 module.exports = function denude(path) {
   let callerFile
 
@@ -35,5 +28,9 @@ module.exports = function denude(path) {
     )
   }
 
-  return new Proxy(_module, TRAPS)
+  return new Proxy({}, {
+    get(target, name) {
+      return (typeof name === 'string') ? _module.__get__(name) : target
+    },
+  })
 }
