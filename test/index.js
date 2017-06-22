@@ -46,3 +46,12 @@ test('Works with empty exports', (t) => {
   t.true(typeof empty.a === 'number')
 })
 
+test('Correctly handles undefined variables', (t) => {
+  let normal = denude('./dummies/normal')
+
+  t.notThrows(() => {
+    normal.q
+  })
+
+  t.true(typeof normal.w === 'undefined')
+})

@@ -1,7 +1,6 @@
 const rewire = require('rewire')
 const resolveFile = require('./resolveFile')
 
-
 module.exports = function denude(path) {
   let fullPath = resolveFile(path)
   let _module = rewire(fullPath)
@@ -13,9 +12,16 @@ module.exports = function denude(path) {
     )
   }
 
-  return new Proxy({}, {
-    get(target, name) {
-      return (typeof name === 'string') ? _module.__get__(name) : target
-    },
-  })
+  let get = (target, name) => {
+    if (typeof name !== 'string') {
+      // Is this the correct check for accessing the object itself?
+      return target
+    }
+
+    try {
+      return _module.__get__(name)
+    } catch (err) {}
+  }
+
+  return new Proxy({}, { get })
 }
