@@ -19,20 +19,33 @@ function greet(name) {
   return format(`${prefix}%s!`, name)
 }
 
-module.exports = function helloWorld() {
+function helloWorld() {
   return greet('World')
 }
 
+module.exports = { greet, helloWorld }
 ```
 
 Test file:
 
 ```js
 const denude = require('denude')
-const helloWorld = require('./module') // public parts
-const { format, prefix, greet } = denude('./module') // private parts
+const { helloWorld, greet: publicGreet } = denude('./module') // public parts
+const { format, prefix, greet } = denude('./module?private') // private parts
 
-// Some tests...
+console.log(greet === publicGreet) // true
+console.log(helloWorld()) // Hello, World!
+```
+
+Notice that denude works independently from require. It means that `require('./module')` and `denude('./module')` will return different instances of all the members of the module:
+
+```js
+const required = require('./module')
+const publicDenude = denude('./module')
+const privateDenude = denude('./module?private')
+
+console.log(required.greet === publicDenude.greet) // false
+console.log(privateDenude.greet === publicDenude.greet) // true
 ```
 
 
