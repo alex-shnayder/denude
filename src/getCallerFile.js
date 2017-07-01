@@ -1,7 +1,4 @@
-const { dirname, resolve } = require('path')
-
-
-const DIRS_TO_EXCLUDE = [__dirname, resolve(__dirname, '../node_modules')]
+const { dirname, join } = require('path')
 
 
 module.exports = function getCallerFile() {
@@ -20,13 +17,11 @@ module.exports = function getCallerFile() {
       return false
     }
 
-    for (let i = 0; i < DIRS_TO_EXCLUDE.length; i++) {
-      if (fileDir.startsWith(DIRS_TO_EXCLUDE[i])) {
-        return false
-      }
-    }
-
-    return true
+    return (
+      !fileDir.startsWith(__dirname) &&
+      !fileDir.includes(join('node_modules', 'rewire')) &&
+      !fileDir.includes(join('node_modules', 'resolve'))
+    )
   })
 
   Error.prepareStackTrace = originalFunc
